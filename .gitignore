@@ -1,0 +1,13 @@
+# Terraform working files and state. State can hold user data, never commit it.
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfplan
+
+# Local variable files and secrets
+*.tfvars
+!example.tfvars
+*.pem
+*.key
+.env
