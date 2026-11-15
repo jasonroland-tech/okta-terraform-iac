@@ -5,9 +5,24 @@
 
 📸 = screenshot for the README. Redact your org URL and client ID.
 
+## Before you start
+
+**Accounts**
+- [ ] **Okta Integrator Free Plan org**: sign up at developer.okta.com/signup with your personal email (not LogicGate). Set your password and MFA from the activation email.
+- [ ] **GitHub**: you already have `jasonroland-tech`.
+
+**Software on your Mac** (run each check in Terminal; install only what's missing)
+| Tool | Check | Install if missing |
+| --- | --- | --- |
+| Homebrew | `brew --version` | `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` |
+| Terraform | `terraform -version` | `brew tap hashicorp/tap && brew install hashicorp/tap/terraform` |
+| Git | `git --version` | `xcode-select --install` |
+| VS Code | open it | code.visualstudio.com |
+| VS Code extension (optional) | | HashiCorp Terraform (syntax colors for `.tf` files) |
+
 ## Setup (15 min)
 
-**1. Free Okta org.** Sign up at developer.okta.com (Integrator Free Plan).
+**1. Open your Okta org.** Sign in to the Integrator Free Plan org from "Before you start". Your org name is the address bar prefix, e.g. `integrator-1234567` (drop `-admin`).
 *Why:* never test automation in your work tenant.
 
 **2. Create the Terraform app.** Admin console > Applications > Create App Integration > **API Services** > name `Terraform`.
