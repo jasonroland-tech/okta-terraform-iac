@@ -15,5 +15,5 @@ terraform {
 #   OKTA_API_CLIENT_ID       client ID of the "Terraform" API Services app
 #   OKTA_API_PRIVATE_KEY_ID  key ID (kid) shown next to the public key in that app
 #   OKTA_API_PRIVATE_KEY     path to the private key PEM file, kept outside this repo
-#   OKTA_API_SCOPES          okta.users.manage,okta.groups.manage,okta.apps.manage
+#   OKTA_API_SCOPES          okta.users.manage,okta.groups.manage,okta.apps.manage,okta.policies.read
 provider "okta" {}

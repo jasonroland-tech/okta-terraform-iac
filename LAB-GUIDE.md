@@ -22,12 +22,12 @@
 
 ## Setup (15 min)
 
-**1. Open your Okta org.** Sign in to the Integrator Free Plan org from "Before you start". Your org name is the address bar prefix, e.g. `integrator-1234567` (drop `-admin`).
+**1. Open your Okta org.** Sign in to the Integrator Free Plan org from "Before you start". Your org name is the **address bar** prefix, e.g. `integrator-1234567` (drop `-admin`). The name under your profile in the top right is only a display name; using it causes `invalid_client`.
 *Why:* never test automation in your work tenant.
 
 **2. Create the Terraform app.** Admin console > Applications > Create App Integration > **API Services** > name `Terraform`.
 - Client Credentials > Edit > **Public key / Private key** > Add key > Generate new key > copy the **PEM** and the **KID** > uncheck **Require DPoP header** > Save.
-- Okta API Scopes tab > Grant `okta.users.manage`, `okta.groups.manage`, `okta.apps.manage`. 📸
+- Okta API Scopes tab > Grant `okta.users.manage`, `okta.groups.manage`, `okta.apps.manage`, `okta.policies.read` (apps need it to attach the default sign in policy). 📸
 - Admin roles tab > **Super Administrator** (lab only).
 
 *Why:* Terraform signs in as an app with a key, not as you with a password.
@@ -37,14 +37,17 @@
 mkdir -p ~/.okta && nano ~/.okta/terraform-key.pem      # paste PEM, Ctrl+O, Enter, Ctrl+X
 chmod 600 ~/.okta/terraform-key.pem
 cd ~/Documents/GitHub && git clone https://github.com/jasonroland-tech/okta-terraform-iac.git && cd okta-terraform-iac
-export OKTA_ORG_NAME="integrator-1234567" OKTA_BASE_URL="okta.com"
+export OKTA_ORG_NAME="integrator-1234567" OKTA_BASE_URL="okta.com"   # from the ADDRESS BAR, not the display name
 export OKTA_API_CLIENT_ID="paste-client-id" OKTA_API_PRIVATE_KEY_ID="paste-kid"
 export OKTA_API_PRIVATE_KEY="$HOME/.okta/terraform-key.pem"
-export OKTA_API_SCOPES="okta.users.manage,okta.groups.manage,okta.apps.manage"
+export OKTA_API_SCOPES="okta.users.manage,okta.groups.manage,okta.apps.manage,okta.policies.read"
 ```
 *Why:* secrets stay out of Git and disappear when the terminal closes.
 
 ## Build (10 min)
+
+> **If apply fails with `empty access token`:** run `TF_LOG=DEBUG TF_LOG_PATH=tf-debug.log terraform apply`, then `grep -i -E "errorSummary|error_description" tf-debug.log | head -3`, and delete the log after. Common causes: wrong org name (`invalid_client`), a Mac clock a few seconds fast (`expiration too far into the future`, fix with `sudo sntp -sS time.apple.com`), or a PEM that doesn't match the KID.
+
 
 **4. Plan, then apply.**
 ```bash
