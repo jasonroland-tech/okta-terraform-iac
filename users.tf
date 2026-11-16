@@ -10,4 +10,11 @@ resource "okta_user" "workforce" {
 
   # Offboarding is a status change, not a delete, so the account and its audit trail survive.
   status = each.value.status
+
+  # Guardrail: any plan that would delete a user fails instead of running.
+  # Deleting a user loses their ID, MFA and app links, and Git can't bring those back.
+  # To truly delete someone, remove this guard in a reviewed pull request first.
+  lifecycle {
+    prevent_destroy = true
+  }
 }

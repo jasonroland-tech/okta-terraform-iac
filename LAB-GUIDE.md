@@ -1,6 +1,6 @@
 # Lab guide: Okta managed with Terraform
 
-**Time:** 40 to 45 min. **Cost:** free.
+**Time:** 45 min. **Cost:** free.
 **Skills:** Terraform (infrastructure as code), non-human identity, group rules, joiner/mover/leaver, drift detection.
 
 📸 = screenshot for the README. Redact your org URL and client ID.
@@ -72,7 +72,16 @@ In Okta, open `Dept-Engineering`: Ava and Cara got in through the rule, nobody c
 **8. Catch drift.** In the Okta console, add **Ava** to `Role-IAM-Admins` by hand. Run `terraform plan`: it flags the change. Apply to revert it. 📸
 *Why:* this is your Loom headline. Access changed outside the process gets caught and undone.
 
-**9. Push.**
+**9. Block accidental deletes.** Run `git pull` to get the guardrail now in `users.tf`:
+```hcl
+  lifecycle {
+    prevent_destroy = true
+  }
+```
+Run `terraform plan`: **No changes** (the guard is a rule for Terraform, not a change in Okta). Now delete Ava's line from `variables.tf`, save, and run `terraform plan` again. It fails with **Instance cannot be destroyed**. 📸 Put Ava's line back (Cmd+Z, save) and plan again: **No changes**.
+*Why:* deleting a user loses their ID, MFA and app links, and Git can only rebuild them as new people. Offboarding is deactivate; deleting needs the guard removed in a reviewed change.
+
+**10. Push.**
 ```bash
 terraform fmt && git add . && git commit -m "Lifecycle and drift tests" && git push
 ```

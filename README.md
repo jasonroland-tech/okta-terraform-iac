@@ -13,6 +13,7 @@ I manage an Okta org entirely as code: users, groups, group rules, an app and it
 | Attribute based access | Group rules place users by `department`; the app is assigned to groups only |
 | Lifecycle | Joiner, mover and leaver done as reviewed code changes |
 | Drift control | A manual console change caught by `terraform plan` and reverted |
+| Delete protection | `prevent_destroy` makes any plan that would delete a user fail |
 | CI | GitHub Actions checks format and validates on every push |
 
 ## Design
@@ -38,6 +39,7 @@ variables.tf (users) ──> okta_user ──> group rules (department) ──> 
 | Mover (Ben) | Clinical to Engineering, gains GitHub | ✅ `~ department` updated in place, same user ID; moved groups and gained GitHub |
 | Leaver (Dan) | Deactivated, account kept for audit | ✅ `PROVISIONED -> DEPROVISIONED`, 1 change, 0 destroyed; no apps, logs kept |
 | Drift | Ava added to admins by hand, caught and reverted | ✅ Plan flagged Ava's ID for removal; apply restored Cara as the only admin |
+| Delete guard | Removing Ava from code is refused | _pending_ |
 
 ### Evidence
 
