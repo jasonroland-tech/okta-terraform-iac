@@ -41,6 +41,23 @@ variables.tf (users) ──> okta_user ──> group rules (department) ──> 
 
 ### Evidence
 
+**First apply:** groups created, Ava and Cara placed in Dept-Engineering by the rule (nobody clicked), and a second plan shows no changes.
+
+![Groups created](docs/screenshots/apply-groups-created.png)
+![Dept-Engineering filled by rule](docs/screenshots/apply-engineering-by-rule.png)
+![Clean plan](docs/screenshots/apply-clean-plan.png)
+
+**Joiner:** adding Erin to `variables.tf` creates her, and the rule gives her the GitHub app through Dept-Engineering.
+
+![Joiner apply](docs/screenshots/joiner-apply.png)
+![Erin gets GitHub](docs/screenshots/joiner-erin-github.png)
+
+**Mover:** changing Ben's department updates him in place (same ID), moves his group and grants GitHub.
+
+![Mover plan](docs/screenshots/mover-plan.png)
+![Ben gets GitHub](docs/screenshots/mover-ben-github.png)
+![Dept-Engineering now 4 people](docs/screenshots/mover-engineering-4-people.png)
+
 **Leaver:** the plan changes status only, nothing is destroyed. Okta shows Dan deactivated with no apps.
 
 ![Leaver plan](docs/screenshots/leaver-plan.png)
