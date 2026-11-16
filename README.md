@@ -39,7 +39,7 @@ variables.tf (users) ──> okta_user ──> group rules (department) ──> 
 | Mover (Ben) | Clinical to Engineering, gains GitHub | ✅ `~ department` updated in place, same user ID; moved groups and gained GitHub |
 | Leaver (Dan) | Deactivated, account kept for audit | ✅ `PROVISIONED -> DEPROVISIONED`, 1 change, 0 destroyed; no apps, logs kept |
 | Drift | Ava added to admins by hand, caught and reverted | ✅ Plan flagged Ava's ID for removal; apply restored Cara as the only admin |
-| Delete guard | Removing Ava from code is refused | _pending_ |
+| Delete guard | Removing Ava from code is refused | ✅ Plan wanted 1 destroy and failed with `Instance cannot be destroyed`; nothing ran |
 
 ### Evidence
 
@@ -70,6 +70,10 @@ variables.tf (users) ──> okta_user ──> group rules (department) ──> 
 ![Ava added by hand](docs/screenshots/drift-before-ava-added.png)
 ![Drift caught by plan](docs/screenshots/drift-plan.png)
 ![Reverted to Cara only](docs/screenshots/drift-after-reverted.png)
+
+**Delete guard:** with Ava removed from the code, `prevent_destroy` stops the plan before anything can run.
+
+![Delete blocked](docs/screenshots/delete-guard-blocked.png)
 
 **CI:** every push is format checked and validated.
 
