@@ -24,7 +24,7 @@ variable "users" {
     "ben.cruz" = {
       first_name = "Ben"
       last_name  = "Cruz"
-      department = "Clinical"
+      department = "Engineering"
       title      = "Registered Nurse"
     }
     "cara.diaz" = {
@@ -38,6 +38,13 @@ variable "users" {
       last_name  = "Evans"
       department = "Finance"
       title      = "Financial Analyst"
+      status     = "DEPROVISIONED"
+    }
+    "erin.fox" = {
+      first_name = "Erin"
+      last_name  = "Fox"
+      department = "Engineering"
+      title      = "QA Engineer"
     }
   }
 
