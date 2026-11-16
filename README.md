@@ -33,11 +33,28 @@ variables.tf (users) ──> okta_user ──> group rules (department) ──> 
 
 | Test | Expected | Result |
 | --- | --- | --- |
-| First apply | 4 users, 4 groups, 3 rules, 1 app | _pending_ |
-| Joiner (Erin) | Lands in Dept-Engineering, gets GitHub | _pending_ |
-| Mover (Ben) | Clinical to Engineering, gains GitHub | _pending_ |
-| Leaver (Dan) | Deactivated, account kept for audit | _pending_ |
-| Drift | Ava added to admins by hand, caught and reverted | _pending_ |
+| First apply | 4 users, 4 groups, 3 rules, 1 app | ✅ 14 resources created; Ava and Cara placed in Dept-Engineering by the rule |
+| Joiner (Erin) | Lands in Dept-Engineering, gets GitHub | ✅ Added to the group by rule, GitHub tile assigned |
+| Mover (Ben) | Clinical to Engineering, gains GitHub | ✅ `~ department` updated in place, same user ID; moved groups and gained GitHub |
+| Leaver (Dan) | Deactivated, account kept for audit | ✅ `PROVISIONED -> DEPROVISIONED`, 1 change, 0 destroyed; no apps, logs kept |
+| Drift | Ava added to admins by hand, caught and reverted | ✅ Plan flagged Ava's ID for removal; apply restored Cara as the only admin |
+
+### Evidence
+
+**Leaver:** the plan changes status only, nothing is destroyed. Okta shows Dan deactivated with no apps.
+
+![Leaver plan](docs/screenshots/leaver-plan.png)
+![Dan deactivated](docs/screenshots/leaver-dan-deactivated.png)
+
+**Drift:** Ava added to Role-IAM-Admins in the console, caught by `terraform plan`, removed by `terraform apply`.
+
+![Ava added by hand](docs/screenshots/drift-before-ava-added.png)
+![Drift caught by plan](docs/screenshots/drift-plan.png)
+![Reverted to Cara only](docs/screenshots/drift-after-reverted.png)
+
+**CI:** every push is format checked and validated.
+
+![GitHub Actions green](docs/screenshots/ci-green.png)
 
 ## Security notes
 
