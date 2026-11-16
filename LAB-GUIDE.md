@@ -67,9 +67,9 @@ In Okta, open `Dept-Engineering`: Ava and Cara got in through the rule, nobody c
 
 **6. Mover.** Change Ben's `department` to `"Engineering"`. `terraform plan` shows `~ department` (update in place). Apply. 📸 the plan.
 
-**7. Leaver.** Add `status = "SUSPENDED"` to Dan and apply. His account and history stay for audit.
+**7. Leaver.** Add `status = "DEPROVISIONED"` to Dan and apply. That is Okta's **deactivate**: all access ends, but his account and history stay for audit. (Users created without a password sit in **Provisioned / Pending user action**, and Okta only allows suspend on fully active users, so deactivate is the right offboarding step here.)
 
-**8. Catch drift.** In the Okta console, add Dan to `Role-IAM-Admins` by hand. Run `terraform plan`: it flags the change. Apply to revert it. 📸
+**8. Catch drift.** In the Okta console, add **Ava** to `Role-IAM-Admins` by hand. Run `terraform plan`: it flags the change. Apply to revert it. 📸
 *Why:* this is your Loom headline. Access changed outside the process gets caught and undone.
 
 **9. Push.**

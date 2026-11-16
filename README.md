@@ -36,8 +36,8 @@ variables.tf (users) ──> okta_user ──> group rules (department) ──> 
 | First apply | 4 users, 4 groups, 3 rules, 1 app | _pending_ |
 | Joiner (Erin) | Lands in Dept-Engineering, gets GitHub | _pending_ |
 | Mover (Ben) | Clinical to Engineering, gains GitHub | _pending_ |
-| Leaver (Dan) | Suspended, account kept for audit | _pending_ |
-| Drift | Manual admin group add caught and reverted | _pending_ |
+| Leaver (Dan) | Deactivated, account kept for audit | _pending_ |
+| Drift | Ava added to admins by hand, caught and reverted | _pending_ |
 
 ## Security notes
 
